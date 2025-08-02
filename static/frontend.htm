@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Identity Agent - User Provisioning</title>
+</head>
+<body>
+  <h2>User Provisioning Form</h2>
+  <form id="userForm">
+    <input type="email" name="email" placeholder="Email" required><br>
+    <input type="text" name="firstName" placeholder="First Name"><br>
+    <input type="text" name="lastName" placeholder="Last Name"><br>
+    <input type="text" name="jobTitle" placeholder="Job Title"><br>
+    <input type="text" name="department" placeholder="Department"><br>
+    <input type="text" name="location" placeholder="Location"><br>
+    <input type="text" name="employeeId" placeholder="Employee ID"><br>
+    <input type="text" name="managerId" placeholder="Manager ID"><br>
+    <input type="text" name="costcenter" placeholder="Cost Center"><br>
+    <input type="text" name="region" placeholder="Region"><br><br>
+    <button type="submit">Provision</button>
+  </form>
+  <pre id="result"></pre>
+
+  <script>
+    document.getElementById("userForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const jsonData = {};
+      formData.forEach((v, k) => jsonData[k] = v);
+
+      const res = await fetch("/provision/user", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(jsonData)
+      });
+
+      const data = await res.json();
+      document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+    };
+  </script>
+</body>
+</html>
