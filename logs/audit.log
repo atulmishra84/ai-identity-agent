@@ -1,0 +1,13 @@
+2025-08-02 17:07:47,093 - INFO - Updated user: test.user@example.com, Entra=<Mock name='mock.update_entra_user()' id='4375267712'>, AWS=<Mock name='mock.update_user()' id='4375268384'>, SailPoint=<Mock name='mock.update_user_attributes()' id='4375269056'>
+2025-08-02 17:09:34,737 - INFO - Updated user: test.user@example.com, Entra=<Mock name='mock.update_entra_user()' id='4375267712'>, AWS=<Mock name='mock.update_user()' id='4375268384'>, SailPoint=<Mock name='mock.update_user_attributes()' id='4375269056'>
+2025-08-02 17:14:31,019 - INFO - Received provisioning request for: jane.doe@company.com
+2025-08-02 17:14:31,020 - INFO - AI access recommendation: {'entitlements': ['READ', 'WRITE']}
+2025-08-02 17:14:31,020 - INFO - Provisioning complete: Entra=success, AWS=success, SailPoint=User pushed
+2025-08-02 17:15:59,609 - INFO - Deprovisioned user: jane.doe@company.com, Entra=success, AWS=success, SailPoint=success
+2025-08-02 17:16:53,244 - INFO - Updated user: john.doe@company.com, Entra=success, AWS=success, SailPoint=success
+2025-08-02 17:27:27,663 - INFO - Received provisioning request for: john.doe@company.com
+2025-08-02 17:27:27,664 - INFO - AI access recommendation: {'entitlements': ['READ', 'WRITE']}
+2025-08-02 17:27:27,664 - INFO - Provisioning complete: Entra=success, AWS=success, SailPoint=User pushed
+2025-08-02 17:48:22,875 - INFO - Received provisioning request for: jane.doe@example.com
+2025-08-02 17:48:22,876 - INFO - AI access recommendation: {'error': 'Missing OpenAI API key'}
+2025-08-02 17:48:22,877 - INFO - Provisioning complete: Entra=success, AWS=success, SailPoint=User pushed

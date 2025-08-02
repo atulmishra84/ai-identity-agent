@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+openai
+requests
+boto3
+python-dotenv
+ruff
+black
+mypy
