@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Identity Agent</title>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 2rem;">
+    <h2>Provision a New User</h2>
+    <form id="provisionForm">
+        <label>Email: <input name="email" required /></label><br><br>
+        <label>First Name: <input name="firstName" /></label><br><br>
+        <label>Last Name: <input name="lastName" /></label><br><br>
+        <label>Job Title: <input name="jobTitle" /></label><br><br>
+        <label>Department: <input name="department" /></label><br><br>
+        <label>Location: <input name="location" /></label><br><br>
+        <label>Employee ID: <input name="employeeId" /></label><br><br>
+        <label>Manager ID: <input name="managerId" /></label><br><br>
+        <label>Cost Center: <input name="costcenter" /></label><br><br>
+        <label>Region: <input name="region" /></label><br><br>
+        <button type="submit">Provision User</button>
+    </form>
+
+    <h3>Response</h3>
+    <pre id="response" style="background: #f4f4f4; padding: 1rem;"></pre>
+
+    <script>
+        const form = document.getElementById("provisionForm");
+        const responseDiv = document.getElementById("response");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((v, k) => data[k] = v);
+
+            const res = await fetch("/provision/user", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            const json = await res.json();
+            responseDiv.textContent = JSON.stringify(json, null, 2);
+        });
+    </script>
+</body>
+</html>
 
