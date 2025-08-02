@@ -13,7 +13,8 @@ except ModuleNotFoundError:
     sys.modules['ssl'] = types.SimpleNamespace()
 
 from fastapi import FastAPI, Request, Depends, HTTPException, status
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel
 
@@ -65,6 +66,15 @@ load_dotenv()
 app = FastAPI()
 security = HTTPBasic()
 
+# Add CORS support for frontend connection
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, restrict this to your frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 DASHBOARD_USER = os.getenv("DASHBOARD_USER", "admin")
 DASHBOARD_PASS = os.getenv("DASHBOARD_PASS", "adminpass")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -97,10 +107,6 @@ def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
-
-@app.get("/")
-def root():
-    return FileResponse("static/frontend.html")
 
 @app.get("/dashboard", response_class=HTMLResponse)
 def dashboard(credentials: HTTPBasicCredentials = Depends(authenticate)):
