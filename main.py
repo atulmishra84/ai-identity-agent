@@ -1,4 +1,3 @@
-### main.py
 import os
 import logging
 import secrets
@@ -14,10 +13,9 @@ except ModuleNotFoundError:
     sys.modules['ssl'] = types.SimpleNamespace()
 
 from fastapi import FastAPI, Request, Depends, HTTPException, status
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel
-from fastapi import FastAPI
 
 # Handle openai import errors
 try:
@@ -28,14 +26,14 @@ except ModuleNotFoundError:
 # Conditional imports to handle environments lacking certain modules
 def safe_import(module_name, alias=None):
     try:
-        from unittest import mock
-        module = mock.Mock()
+        module = __import__(module_name, fromlist=[''])
         if alias:
             globals()[alias] = module
         else:
             globals()[module_name] = module
     except ImportError:
-        print(f"Warning: Could not mock {module_name}. Some functionality may be limited.")
+        from unittest import mock
+        globals()[alias or module_name] = mock.Mock()
 
 safe_import("provision.entra", "entra")
 safe_import("provision.aws", "aws")
@@ -99,6 +97,10 @@ def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+@app.get("/")
+def root():
+    return FileResponse("static/frontend.html")
 
 @app.get("/dashboard", response_class=HTMLResponse)
 def dashboard(credentials: HTTPBasicCredentials = Depends(authenticate)):
